@@ -1,0 +1,11 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <dimen name="laser_heigth">8dip</dimen>
+    <dimen name="corner_width">3dip</dimen>
+    <dimen name="corner_length">20dip</dimen>
+    <dimen name="corner_margin">3dip</dimen>
+</resources>

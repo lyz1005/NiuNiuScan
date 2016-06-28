@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Scan">
+        <attr name="frame_color" format="color"/>
+        <attr name="mask_color" format="color"/>
+        <attr name="laser" format="reference"/>
+        <attr name="cornor_color" format="color"/>
+        <attr name="cornor_width" format="dimension"/>
+        <attr name="cornor_length" format="dimension"/>
+        <attr name="cornor_margin" format="dimension"/>
+    </declare-styleable>
+
+</resources>

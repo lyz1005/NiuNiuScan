@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:scan="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white">
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <scan.niuniu.com.niuniuscan.ScanView
+        android:id="@+id/scan_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        scan:cornor_width="@dimen/corner_width"
+        scan:cornor_length="@dimen/corner_length"
+        scan:cornor_color="@color/scan_frame"
+        scan:cornor_margin="@dimen/corner_margin"
+        scan:frame_color="@color/scan_frame"
+        android:background="@android:color/transparent"/>
+
+    <ImageView
+        android:id="@+id/flash_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="10dip"
+        android:contentDescription="flash_light"
+        android:padding="10dip"
+        android:src="@mipmap/light_bulb_off"
+        tools:ignore="HardcodedText"/>
+
+</FrameLayout>
