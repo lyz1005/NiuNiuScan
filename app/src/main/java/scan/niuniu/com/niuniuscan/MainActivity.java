@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,8 +16,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
 import com.google.zxing.Result;
 
 import scan.niuniu.com.niuniuscan.camera.CameraManager;
@@ -57,13 +60,13 @@ public class MainActivity extends Activity  {
         // 初始化 CameraManager
         CameraManager.init(getApplication());
 
+
         scanView = (ScanView) findViewById(R.id.scan_view);
         SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
         surfaceHolder = surfaceView.getHolder();
         hasSurface = false;
         findViewById(R.id.flash_light).setOnClickListener(viewOnClickListener);
     }
-
 
     @Override
     protected void onResume() {

@@ -25,6 +25,7 @@ import android.util.Log;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
@@ -71,16 +72,17 @@ final class DecodeHandler extends Handler {
      * @param height The height of the preview frame.
      */
     private void decode(byte[] data, int width, int height) {
+        Log.i("lyz",String.format("width:%d,height:%d",width,height));
         long start = System.currentTimeMillis();
         Result rawResult = null;
-        PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, width, height);
+        PlanarYUVLuminanceSource source = CameraManager.getInstance().buildLuminanceSource(data, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap);
         } catch (ReaderException re) {
         	re.printStackTrace();
             // continue
-        } finally {
+        }  finally {
             multiFormatReader.reset();
         }
 

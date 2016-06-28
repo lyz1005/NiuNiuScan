@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -150,6 +151,8 @@ public final class ScanView extends View {
         int topOffset = (measuredHeight - height) / 2;
         Rect framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                 topOffset + height);
+
+        Log.i("rect",String.format("width%d,height%d",framingRect.width(),framingRect.height()));
         return framingRect;
     }
 

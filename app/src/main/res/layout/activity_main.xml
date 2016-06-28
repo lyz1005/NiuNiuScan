@@ -33,5 +33,4 @@
         android:padding="10dip"
         android:src="@mipmap/light_bulb_off"
         tools:ignore="HardcodedText"/>
-
 </FrameLayout>

@@ -51,7 +51,7 @@ final class CameraConfiguration {
      * Reads, one time, values from the camera that are needed by the app.
      */
     void initFromCameraParameters(Camera camera) {
-        camera.setDisplayOrientation(90);
+//        camera.setDisplayOrientation(90);
         Camera.Parameters parameters = camera.getParameters();
         previewFormat = parameters.getPreviewFormat();
         previewFormatString = parameters.get("preview-format");
@@ -98,27 +98,27 @@ final class CameraConfiguration {
 
     private static Point getCameraResolution(Camera.Parameters parameters, Point screenResolution) {
 
-        String previewSizeValueString = parameters.get("preview-size-values");
-        // saw this on Xperia
-        if (previewSizeValueString == null) {
-            previewSizeValueString = parameters.get("preview-size-value");
-        }
+//        String previewSizeValueString = parameters.get("preview-size-values");
+//        // saw this on Xperia
+//        if (previewSizeValueString == null) {
+//            previewSizeValueString = parameters.get("preview-size-value");
+//        }
+//
+//        Point cameraResolution = null;
+//
+//        if (previewSizeValueString != null) {
+//            Log.d(TAG, "preview-size-values parameter: " + previewSizeValueString);
+//            cameraResolution = findBestPreviewSizeValue(previewSizeValueString, screenResolution);
+//        }
+//
+//        if (cameraResolution == null) {
+//            // Ensure that the camera resolution is a multiple of 8, as the screen may not be.
+//            cameraResolution = new Point(
+//                    (screenResolution.x >> 3) << 3,
+//                    (screenResolution.y >> 3) << 3);
+//        }
 
-        Point cameraResolution = null;
-
-        if (previewSizeValueString != null) {
-            Log.d(TAG, "preview-size-values parameter: " + previewSizeValueString);
-            cameraResolution = findBestPreviewSizeValue(previewSizeValueString, screenResolution);
-        }
-
-        if (cameraResolution == null) {
-            // Ensure that the camera resolution is a multiple of 8, as the screen may not be.
-            cameraResolution = new Point(
-                    (screenResolution.x >> 3) << 3,
-                    (screenResolution.y >> 3) << 3);
-        }
-
-        return cameraResolution;
+        return new Point(720,480);
     }
 
     private static Point findBestPreviewSizeValue(CharSequence previewSizeValueString, Point screenResolution) {
@@ -187,11 +187,7 @@ final class CameraConfiguration {
         // Restrict Behold II check to Cupcake, per Samsung's advice
         //if (Build.MODEL.contains("Behold II") &&
         //    CameraManager.SDK_INT == Build.VERSION_CODES.CUPCAKE) {
-        if (Build.MODEL.contains("Behold II") && CameraManager.SDK_INT == 3) { // 3 = Cupcake
-            parameters.set("flash-value", 1);
-        } else {
-            parameters.set("flash-value", 2);
-        }
+        parameters.set("flash-value", 2);
         // This is the standard setting to turn the flash off that all devices should honor.
         parameters.set("flash-mode", "off");
     }

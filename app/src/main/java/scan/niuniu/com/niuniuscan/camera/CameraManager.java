@@ -45,27 +45,14 @@ public final class CameraManager {
 
     private static CameraManager cameraManager;
 
-    static final int SDK_INT; // Later we can use Build.VERSION.SDK_INT
-
-    static {
-        int sdkInt;
-        try {
-            sdkInt = Integer.parseInt(Build.VERSION.SDK);
-        } catch (NumberFormatException nfe) {
-            // Just to be safe
-            sdkInt = 10000;
-        }
-        SDK_INT = sdkInt;
-    }
-
-    private final Context context;
+//    private final Context context;
     private final CameraConfiguration configManager;
     private Camera camera;
     private Rect framingRect;
     private Rect framingRectInPreview;
     private boolean initialized;
     private boolean previewing;
-    private final boolean useOneShotPreviewCallback;
+//    private final boolean useOneShotPreviewCallback;
     /**
      * Preview frames are delivered here, which we pass on to the registered
      * handler. Make sure to clear the handler so it will only receive one
@@ -73,7 +60,7 @@ public final class CameraManager {
      */
     private final PreviewCallback previewCallback;
 
-    private SurfaceHolder holder;
+//    private SurfaceHolder holder;
 
     /**
      * Initializes this static object with the Context of the calling Activity.
@@ -96,26 +83,8 @@ public final class CameraManager {
     }
 
     private CameraManager(Context context) {
-
-        this.context = context;
         this.configManager = new CameraConfiguration(context);
-
-        // Camera.setOneShotPreviewCallback() has a race condition in Cupcake,
-        // so we use the older
-        // Camera.setPreviewCallback() on 1.5 and earlier. For Donut and later,
-        // we need to use
-        // the more efficient one shot callback, as the older one can swamp the
-        // system and cause it
-        // to run out of memory. We can't use SDK_INT because it was introduced
-        // in the Donut SDK.
-        // useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) >
-        // Build.VERSION_CODES.CUPCAKE;
-        useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) > 3; // 3
-        // =
-        // Cupcake
-
-        previewCallback = new PreviewCallback(configManager,
-                useOneShotPreviewCallback);
+        this.previewCallback = new PreviewCallback(configManager,true);
     }
 
     /**
@@ -131,7 +100,6 @@ public final class CameraManager {
             if (camera == null) {
                 throw new IOException();
             }
-            this.holder = holder;
             camera.setPreviewDisplay(holder);
             camera.setDisplayOrientation(90);
 
@@ -168,9 +136,10 @@ public final class CameraManager {
      */
     public void closeDriver() {
         if (camera != null) {
+            camera.stopPreview();
             camera.release();
             camera = null;
-            holder = null;
+//            holder = null;
         }
     }
 
@@ -189,9 +158,6 @@ public final class CameraManager {
      */
     public void stopPreview() {
         if (camera != null && previewing) {
-            if (!useOneShotPreviewCallback) {
-                camera.setPreviewCallback(null);
-            }
             camera.stopPreview();
             previewCallback.setHandler(null, 0);
             previewing = false;
@@ -209,11 +175,7 @@ public final class CameraManager {
     public void requestPreviewFrame(Handler handler, int message) {
         if (camera != null && previewing) {
             previewCallback.setHandler(handler, message);
-            if (useOneShotPreviewCallback) {
-                camera.setOneShotPreviewCallback(previewCallback);
-            } else {
-                camera.setPreviewCallback(previewCallback);
-            }
+            camera.setOneShotPreviewCallback(previewCallback);
         }
     }
 
@@ -298,8 +260,7 @@ public final class CameraManager {
      * @param height The height of the image.
      * @return A PlanarYUVLuminanceSource instance.
      */
-    public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data,
-                                                         int width, int height) {
+    public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data,int width, int height) {
         Rect rect = getFramingRectInPreview();
         int previewFormat = configManager.getPreviewFormat();
         String previewFormatString = configManager.getPreviewFormatString();
@@ -336,9 +297,10 @@ public final class CameraManager {
      */
     public void requestAutoFocus(Handler handler, int message) {
         if (camera != null && previewing) {
-//	      autoFocusCallback.setHandler(handler, message);
-//	      //Log.d(TAG, "Requesting auto-focus callback");
-//	      camera.autoFocus(autoFocusCallback);
+            //TODO 自动聚焦
+//              autoFocusCallback.setHandler(handler, message);
+//              //Log.d(TAG, "Requesting auto-focus callback");
+//              camera.autoFocus(autoFocusCallback);
         }
     }
 
